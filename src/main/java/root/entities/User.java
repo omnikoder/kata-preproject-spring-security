@@ -26,12 +26,19 @@ public class User {
     @Email(message = "* Неправильный email-адрес")
     private String email;
 
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
+    private boolean enabled;
+
     public User() {}
 
-    public User(String name, Integer age, String email) {
+    public User(String name, Integer age, String email, Role role, boolean enabled) {
         this.name = name;
         this.age = age;
         this.email = email;
+        this.role = role;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -66,8 +73,26 @@ public class User {
         this.email = email;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
-        return String.format("ID:    %d\nNAME:  %s\nAGE:   %d\nEMAIL: %s\n", id, name, age, email);
+        return String.format(
+                "ID:    %d\nNAME:  %s\nAGE:   %d\nEMAIL: %s\nROLE:  %s",
+                id, name, age, email, role.name());
     }
 }
