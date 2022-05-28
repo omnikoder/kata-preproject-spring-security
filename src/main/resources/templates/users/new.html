@@ -15,7 +15,7 @@
     <a th:href="@{/}"><button type="button">На главную</button></a>
 
     <div sec:authorize="isAuthenticated()">
-        <p sec:authentication="principal.username"></p>
+        <a th:href="@{/user}" sec:authentication="principal.username"></a>
         <form class="form-inline" th:method="post" th:action="@{/logout}">
             <button type="submit">Выйти</button>
         </form>
@@ -28,7 +28,7 @@
 
 <h1>Регистрация пользователя</h1>
 
-<form th:method="post" th:action="@{/users/new}" th:object="${user}">
+<form th:method="post" th:action="@{/admin/new}" th:object="${user}">
     <label for="name">Имя:</label>
     <input id="name" type="text" th:field="*{name}">
     <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>

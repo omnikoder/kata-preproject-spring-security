@@ -35,6 +35,15 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User getUserByEmail(String email) {
+        return entityManager
+                .createQuery("select u from User u where u.email = :email", User.class)
+                .setParameter("email", email)
+                .getResultList()
+                .get(0);
+    }
+
+    @Override
     public void save(User user) {
         entityManager.persist(user);
     }

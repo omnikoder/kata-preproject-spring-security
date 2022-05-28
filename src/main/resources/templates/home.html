@@ -15,7 +15,7 @@
     <a th:href="@{/}"><button type="button">На главную</button></a>
 
     <div sec:authorize="isAuthenticated()">
-        <p sec:authentication="principal.username"></p>
+        <a th:href="@{/user}" sec:authentication="principal.username"></a>
         <form class="form-inline" th:method="post" th:action="@{/logout}">
             <button type="submit">Выйти</button>
         </form>
@@ -27,7 +27,7 @@
 </header>
 
 <h1>Добро пожаловать!</h1>
-<a th:href="@{/users}"><button type="button">Показать пользователей</button></a>
+<a th:href="@{/user}"><button type="button">Мой аккаунт</button></a>
 
 </body>
 </html>

@@ -11,13 +11,13 @@ import root.services.UserService;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping(path = "/users")
-public class UserController {
+@RequestMapping(path = "/admin")
+public class AdminController {
 
     private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -41,7 +41,7 @@ public class UserController {
             return "users/new";
         }
         userService.save(user);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
     @GetMapping(path = "/edit/{id}")
@@ -63,12 +63,12 @@ public class UserController {
             return "users/edit";
         }
         userService.update(user);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
     @DeleteMapping(path = "/{id}")
     public String deleteUser(@PathVariable(name = "id") Long id) {
         userService.delete(id);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 }

@@ -38,15 +38,22 @@ public class SecurityConfig {
 
         return new InMemoryUserDetailsManager(
                 User.builder()
-                        .username("admin")
+                        .username("admin@mail.box")
                         .password(passwordEncoder().encode("admin"))
                         .authorities(Role.ADMIN.getAuthorities())
                         .build(),
 
                 User.builder()
-                        .username("user")
+                        .username("user@mail.box")
                         .password(passwordEncoder().encode("user"))
                         .authorities(Role.USER.getAuthorities())
+                        .build(),
+
+                User.builder()
+                        .username("disabled")
+                        .password(passwordEncoder().encode("disabled"))
+                        .authorities(Role.USER.getAuthorities())
+                        .disabled(true)
                         .build()
         );
     }

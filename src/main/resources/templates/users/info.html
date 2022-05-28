@@ -26,23 +26,30 @@
     </a>
 </header>
 
-<h1>Редактирование пользователя</h1>
+<h1>Информация об аккаунте</h1>
 
-<form th:method="patch" th:action="@{'/admin/edit/'+ ${user.getId()}}" th:object="${user}">
-    <label for="name">Имя:</label>
-    <input id="name" type="text" th:field="*{name}">
-    <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-
-    <label for="age">Возраст:</label>
-    <input id="age" type="text" th:field="*{age}">
-    <span class="error" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
-
-    <label for="email">Email:</label>
-    <input id="email" type="text" th:field="*{email}">
-    <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-
-    <button type="submit">Сохранить изменения</button>
-</form>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Имя</th>
+        <th>Возраст</th>
+        <th>Почта</th>
+        <th>Роль</th>
+        <th>Статус</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${user.getId()}"></td>
+        <td th:text="${user.getName()}"></td>
+        <td th:text="${user.getAge()}"></td>
+        <td th:text="${user.getEmail()}"></td>
+        <td th:text="${user.getRole().name()}"></td>
+        <td th:text="${user.isEnabled()} ? 'Активен' : 'Забанен'"></td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>
