@@ -1,8 +1,33 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    width: 100%;
+}
+
+header > div {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+header > div > p {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0 20px;
+    text-align: right;
 }
 
 h1 {
@@ -37,12 +62,12 @@ form > button {
     margin-top: 30px;
 }
 
-.form-delete {
+.form-inline {
     width: auto;
     display: inline-block;
 }
 
-.form-delete :last-child {
+.form-inline :last-child {
     margin: 0;
 }
 

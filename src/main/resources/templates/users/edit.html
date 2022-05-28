@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Редактирование пользователя</title>
@@ -9,6 +10,21 @@
     <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
+
+<header>
+    <a th:href="@{/}"><button type="button">На главную</button></a>
+
+    <div sec:authorize="isAuthenticated()">
+        <p sec:authentication="principal.username"></p>
+        <form class="form-inline" th:method="post" th:action="@{/logout}">
+            <button type="submit">Выйти</button>
+        </form>
+    </div>
+
+    <a th:href="@{/login}" sec:authorize="!isAuthenticated()">
+        <button type="submit">Войти</button>
+    </a>
+</header>
 
 <h1>Редактирование пользователя</h1>
 

@@ -1,6 +1,5 @@
 package root.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,13 +16,6 @@ import root.entities.Role;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    @Autowired
-    public SecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler) {
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -33,7 +25,7 @@ public class SecurityConfig {
                 .and()
 
                 .formLogin().permitAll()
-                .successHandler(authenticationSuccessHandler)
+                .successHandler(authenticationSuccessHandler())
                 .and()
 
                 .logout().permitAll();
@@ -62,5 +54,17 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return (request, response, authentication) -> {
+
+            switch (Role.from(authentication.getAuthorities())) {
+                case ADMIN -> response.sendRedirect("/admin");
+                case USER  -> response.sendRedirect("/user");
+                default    -> response.sendRedirect("/");
+            }
+        };
     }
 }
