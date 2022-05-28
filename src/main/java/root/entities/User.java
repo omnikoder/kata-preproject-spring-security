@@ -26,6 +26,9 @@ public class User {
     @Email(message = "* Неправильный email-адрес")
     private String email;
 
+    @NotEmpty(message = "* Введите пароль")
+    private String password;
+
     @NotNull(message = "* Назначьте роль")
     @Enumerated(value = EnumType.STRING)
     private Role role;
@@ -33,15 +36,6 @@ public class User {
     private boolean enabled;
 
     public User() {}
-
-    public User(Long id, String name, Integer age, String email, Role role, boolean enabled) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.email = email;
-        this.role = role;
-        this.enabled = enabled;
-    }
 
     public Long getId() {
         return id;
@@ -73,6 +67,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Role getRole() {

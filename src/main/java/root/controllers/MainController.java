@@ -1,15 +1,13 @@
 package root.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import root.entities.Role;
-import root.entities.User;
 import root.services.UserService;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping(path = "/")
@@ -28,17 +26,8 @@ public class MainController {
     }
 
     @GetMapping(path = "/user")
-    public String getUserPage(Authentication authentication, Model model) {
-        // TODO: замена на пользователя из базы данных
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        model.addAttribute("user",
-                new User(
-                        0L,
-                        authentication.getName(),
-                        0,
-                        userDetails.getUsername(),
-                        Role.from(userDetails.getAuthorities()),
-                        true));
+    public String getUserPage(Principal principal, Model model) {
+        model.addAttribute("user", userService.getUserByEmail(principal.getName()));
         return "users/info";
     }
 }

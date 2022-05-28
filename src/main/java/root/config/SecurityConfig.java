@@ -1,20 +1,27 @@
 package root.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import root.entities.Permission;
 import root.entities.Role;
+import root.services.UserDetailsServiceImpl;
 
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
+
+    @Autowired
+    public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl) {
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,37 +41,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-
-        return new InMemoryUserDetailsManager(
-                User.builder()
-                        .username("admin@mail.box")
-                        .password(passwordEncoder().encode("admin"))
-                        .authorities(Role.ADMIN.getAuthorities())
-                        .build(),
-
-                User.builder()
-                        .username("user@mail.box")
-                        .password(passwordEncoder().encode("user"))
-                        .authorities(Role.USER.getAuthorities())
-                        .build(),
-
-                User.builder()
-                        .username("disabled")
-                        .password(passwordEncoder().encode("disabled"))
-                        .authorities(Role.USER.getAuthorities())
-                        .disabled(true)
-                        .build()
-        );
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
-    }
-
-    @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
+
         return (request, response, authentication) -> {
 
             switch (Role.from(authentication.getAuthorities())) {
@@ -73,5 +51,18 @@ public class SecurityConfig {
                 default    -> response.sendRedirect("/");
             }
         };
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder());
+        provider.setUserDetailsService(userDetailsServiceImpl);
+        return provider;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
     }
 }

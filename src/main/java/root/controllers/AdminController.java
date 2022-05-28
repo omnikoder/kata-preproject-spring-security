@@ -22,6 +22,7 @@ public class AdminController {
         this.userService = userService;
     }
 
+
     @ModelAttribute(name = "roles")
     private Role[] getRoles() {
         return Role.values();
@@ -42,10 +43,12 @@ public class AdminController {
     @PostMapping(path = "/new")
     public String saveUser(@ModelAttribute(name = "user") @Valid User user,
                            BindingResult bindingResult) {
+
         userService.validateEmail(user.getEmail(), bindingResult);
         if (bindingResult.hasErrors()) {
             return "users/new";
         }
+
         userService.save(user);
         return "redirect:/admin";
     }
@@ -59,15 +62,17 @@ public class AdminController {
     @PatchMapping(path = "/edit/{id}")
     public String editUser(@ModelAttribute(name = "user") @Valid User user,
                            BindingResult bindingResult) {
-        if (!userService
-                .getUserById(user.getId())
-                .getEmail()
-                .equals(user.getEmail())) {
+
+        if (!userService.getUserById(user.getId())
+                .getEmail().equals(user.getEmail())) {
+
             userService.validateEmail(user.getEmail(), bindingResult);
         }
+
         if (bindingResult.hasErrors()) {
             return "users/edit";
         }
+
         userService.update(user);
         return "redirect:/admin";
     }

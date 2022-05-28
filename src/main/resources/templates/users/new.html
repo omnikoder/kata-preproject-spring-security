@@ -35,12 +35,16 @@
     <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 
     <label for="age">Возраст:</label>
-    <input id="age" type="text" th:field="*{age}">
+    <input id="age" type="number" th:field="*{age}">
     <span class="error" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
 
     <label for="email">Email:</label>
     <input id="email" type="text" th:field="*{email}">
     <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+
+    <label for="password">Пароль:</label>
+    <input id="password" type="password" th:field="*{password}">
+    <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
     <label for="role">Роль:</label>
     <select id="role" name="role" th:field="*{role}">
