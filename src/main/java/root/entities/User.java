@@ -26,6 +26,7 @@ public class User {
     @Email(message = "* Неправильный email-адрес")
     private String email;
 
+    @NotNull(message = "* Назначьте роль")
     @Enumerated(value = EnumType.STRING)
     private Role role;
 

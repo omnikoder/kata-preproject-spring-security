@@ -17,16 +17,19 @@ header {
     width: 100%;
 }
 
+header > :not(:last-child) {
+    margin-right: 20px;
+}
+
 header > div {
     flex-grow: 1;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
 }
 
 header > div > a {
-    flex-grow: 1;
-    padding: 0 20px;
-    text-align: right;
+    margin: 0 20px;
 }
 
 h1 {
@@ -74,8 +77,22 @@ label {
     margin-top: 10px;
 }
 
-input {
+input, select {
     padding: 5px;
+}
+
+.form-checkbox-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.form-checkbox-container > label,
+.form-checkbox-container > input {
+    margin: 0;
+    padding: 0 5px;
+    cursor: pointer;
 }
 
 .error {

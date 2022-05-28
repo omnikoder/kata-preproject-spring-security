@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import root.entities.Role;
 import root.entities.User;
 import root.services.UserService;
 
@@ -19,6 +20,11 @@ public class AdminController {
     @Autowired
     public AdminController(UserService userService) {
         this.userService = userService;
+    }
+
+    @ModelAttribute(name = "roles")
+    private Role[] getRoles() {
+        return Role.values();
     }
 
     @GetMapping
