@@ -3,6 +3,7 @@ package root.entities;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,5 +34,14 @@ public enum Role {
         authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
 
         return authorities;
+    }
+
+    public static Role from(Collection<? extends GrantedAuthority> authorities) {
+        return Role.valueOf(Role.class, authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .filter(grantedAuthority -> grantedAuthority.startsWith("ROLE_"))
+                .findFirst()
+                .orElse(Role.USER.name())
+                .replaceFirst("ROLE_", ""));
     }
 }
